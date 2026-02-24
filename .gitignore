@@ -44,3 +44,10 @@ logs/
 
 # Streamlit
 .streamlit/
+
+# Claude Code
+.claude/
+
+# Runtime artifacts
+benchmark_results/
+data/logs/

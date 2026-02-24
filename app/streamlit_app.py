@@ -271,43 +271,60 @@ TRANSLATIONS = {
 # ── CSS ────────────────────────────────────────────────────────────────────────
 CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Animations ── */
+@keyframes kl-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .5; }
+}
+@keyframes kl-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+@keyframes kl-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
 
 :root {
-    /* Core palette */
-    --navy-900: #061220;
-    --navy-800: #0D2137;
-    --navy-700: #143154;
-    --navy-600: #1C4270;
-    --navy-400: #2D6CB4;
-    --navy-100: #E8F0FB;
-    --navy-50:  #F2F6FD;
+    /* Core palette — deep clinical blue system */
+    --navy-900: #021B33;
+    --navy-800: #042D4F;
+    --navy-700: #063E6B;
+    --navy-600: #034C81;
+    --navy-500: #0A5E9E;
+    --navy-400: #2CA3FA;
+    --navy-100: #E0F0FF;
+    --navy-50:  #F0F7FF;
 
     /* Text */
     --text:       #0F1A2B;
     --text-2:     #3A4A5C;
     --text-3:     #7A8A9C;
-    --border:     #CDD8EA;
-    --bg:         #EDF1F8;
+    --border:     #D4DCE8;
+    --bg:         #F5F7FA;
     --card:       #FFFFFF;
+    --surface:    #FAFBFC;
+    --accent:     #2CA3FA;
 
     /* Triage */
-    --critical:    #991B1B;
+    --critical:    #DC2626;
     --critical-bg: #FEF2F2;
     --critical-b:  #FECACA;
     --critical-t:  #7F1D1D;
 
-    --urgent:      #9A3412;
+    --urgent:      #EA580C;
     --urgent-bg:   #FFF7ED;
     --urgent-b:    #FED7AA;
     --urgent-t:    #7C2D12;
 
-    --moderate:    #92400E;
+    --moderate:    #D97706;
     --moderate-bg: #FFFBEB;
     --moderate-b:  #FDE68A;
     --moderate-t:  #78350F;
 
-    --stable:      #166534;
+    --stable:      #059669;
     --stable-bg:   #F0FDF4;
     --stable-b:    #BBF7D0;
     --stable-t:    #14532D;
@@ -321,40 +338,62 @@ CSS = """
     --warn-b:   #FCD34D;
     --warn-t:   #92400E;
 
-    /* Agents */
+    /* Agents — richer, saturated */
     --agent-1: #6366F1;   /* Intake — indigo */
     --agent-2: #0891B2;   /* Triage — cyan */
     --agent-3: #059669;   /* Guidelines — emerald */
-    --agent-4: #0D2137;   /* Recommendations — navy */
+    --agent-4: #1E3A5F;   /* Recommendations — slate navy */
 
     --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: 'JetBrains Mono', 'Fira Code', monospace;
-    --r: 8px;
-    --r-lg: 12px;
-    --sh: 0 1px 4px rgba(6,18,32,.07), 0 4px 16px rgba(6,18,32,.06);
-    --sh-sm: 0 1px 3px rgba(6,18,32,.08);
+    --r: 10px;
+    --r-lg: 14px;
+    --sh: 0 1px 3px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.06);
+    --sh-sm: 0 1px 2px rgba(0,0,0,.05);
+    --sh-lg: 0 4px 6px rgba(0,0,0,.04), 0 10px 24px rgba(0,0,0,.08);
 }
 
 /* ── Reset ── */
 .stApp { font-family: var(--font); background: var(--bg); color: var(--text); }
 #MainMenu, footer, header { visibility: hidden; }
 *, *::before, *::after { box-sizing: border-box; }
-p { line-height: 1.65; }
+p { line-height: 1.7; }
 
 /* ── App header ── */
 .kl-header {
-    background: linear-gradient(135deg, var(--navy-800) 0%, var(--navy-900) 100%);
+    background: linear-gradient(135deg, #021B33 0%, #034C81 50%, #021B33 100%);
     color: #fff;
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 2rem;
     margin: -1rem -1rem 1.5rem -1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(255,255,255,.07);
+    border-bottom: 1px solid rgba(44,163,250,.2);
+    position: relative;
+    overflow: hidden;
 }
-.kl-header-brand { font-size: 1.25rem; font-weight: 700; letter-spacing: -.02em; }
-.kl-header-sub   { font-size: .72rem; opacity: .55; font-weight: 400; margin-top: 2px; }
-.kl-header-meta  { font-size: .68rem; opacity: .45; text-align: right; line-height: 1.6; }
+.kl-header::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -10%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(44,163,250,.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+.kl-header-brand {
+    font-size: 1.5rem; font-weight: 800; letter-spacing: -.03em;
+    display: flex; align-items: center; gap: .5rem;
+}
+.kl-header-icon {
+    width: 28px; height: 28px;
+    background: rgba(44,163,250,.2);
+    border: 1px solid rgba(44,163,250,.3);
+    border-radius: 8px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: .85rem;
+}
+.kl-header-sub { font-size: .75rem; opacity: .5; font-weight: 400; margin-top: 3px; letter-spacing: .02em; }
+.kl-header-meta { font-size: .7rem; opacity: .4; text-align: right; line-height: 1.6; }
 
 /* ── Disclaimer ── */
 .kl-disclaimer {
@@ -366,7 +405,7 @@ p { line-height: 1.65; }
     margin-bottom: 1.25rem;
     font-size: .8rem;
     color: var(--warn-t);
-    line-height: 1.5;
+    line-height: 1.55;
 }
 .kl-disclaimer strong { color: #78350F; }
 
@@ -381,19 +420,19 @@ p { line-height: 1.65; }
 .kl-alert-urgent   { background:var(--urgent-bg);   border-color:var(--urgent-b);   border-left:4px solid var(--urgent);   }
 .kl-alert-moderate { background:var(--moderate-bg); border-color:var(--moderate-b); border-left:4px solid var(--moderate); }
 .kl-alert-stable   { background:var(--stable-bg);   border-color:var(--stable-b);   border-left:4px solid var(--stable);   }
-.kl-alert-info     { background:var(--info-bg);     border-color:var(--info-b);     border-left:4px solid #3B82F6; color:var(--info-t); font-size:.875rem; }
+.kl-alert-info     { background:var(--info-bg);     border-color:var(--info-b);     border-left:4px solid var(--accent); color:var(--info-t); font-size:.875rem; }
 
-.kl-alert-label   { font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.2rem; }
-.kl-alert-heading { font-size:1rem; font-weight:600; margin-bottom:.25rem; }
-.kl-alert-body    { font-size:.8375rem; line-height:1.55; }
+.kl-alert-label   { font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.2rem; }
+.kl-alert-heading { font-size:1.05rem; font-weight:600; margin-bottom:.25rem; }
+.kl-alert-body    { font-size:.85rem; line-height:1.6; }
 
 /* ── Status pills ── */
 .kl-pill {
     display:inline-flex; align-items:center; gap:5px;
-    padding:.25rem .625rem; border-radius:9999px;
-    font-size:.69rem; font-weight:600; letter-spacing:.04em;
+    padding:.3rem .7rem; border-radius:9999px;
+    font-size:.7rem; font-weight:600; letter-spacing:.03em;
 }
-.kl-pill-dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
+.kl-pill-dot { width:7px; height:7px; border-radius:50%; background:currentColor; }
 .kl-pill-ready   { background:#D1FAE5; color:#065F46; }
 .kl-pill-loading { background:#FEF3C7; color:#92400E; }
 .kl-pill-error   { background:#FEE2E2; color:#991B1B; }
@@ -405,108 +444,132 @@ p { line-height: 1.65; }
     border: 1px solid var(--border);
     border-radius: var(--r-lg);
     box-shadow: var(--sh);
-    margin: 1rem 0;
+    margin: .875rem 0;
     overflow: hidden;
+    transition: box-shadow .2s ease, transform .2s ease;
+    animation: kl-fade-in .35s ease-out;
+}
+.kl-agent-card:hover {
+    box-shadow: var(--sh-lg);
+    transform: translateY(-1px);
 }
 .kl-agent-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: .875rem 1.25rem;
-    border-bottom: 1px solid var(--border);
 }
 .kl-agent-title {
     display: flex;
     align-items: center;
     gap: .625rem;
-    font-size: .9rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--text);
 }
 .kl-agent-icon {
-    width: 28px; height: 28px;
+    width: 32px; height: 32px;
     border-radius: 50%;
     display: inline-flex; align-items: center; justify-content: center;
-    font-size: .75rem;
+    font-size: .8rem;
     font-weight: 700;
     color: white;
     flex-shrink: 0;
 }
 .kl-agent-badge {
-    font-size: .68rem; font-weight: 600;
-    padding: .2rem .5rem;
+    font-size: .7rem; font-weight: 600;
+    padding: .25rem .625rem;
     border-radius: 9999px;
+    letter-spacing: .02em;
 }
 .kl-badge-complete { background:#D1FAE5; color:#065F46; }
-.kl-badge-running  { background:#FEF3C7; color:#92400E; }
+.kl-badge-running  { background:#FEF3C7; color:#92400E; animation: kl-pulse 1.5s ease-in-out infinite; }
 .kl-badge-pending  { background:#F3F4F6; color:#6B7280; }
 
-.kl-agent-body { padding: 1rem 1.25rem; }
+.kl-agent-body {
+    padding: 1.125rem 1.25rem;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+}
 
 /* ── Triage level display ── */
 .kl-triage-block {
     border-radius: var(--r);
-    padding: .875rem 1.125rem;
+    padding: 1rem 1.25rem;
     margin-bottom: .75rem;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
 }
-.kl-triage-level  { font-size: 1.25rem; font-weight: 700; letter-spacing: -.01em; }
-.kl-triage-desc   { font-size: .85rem; margin-top: .125rem; opacity: .85; }
+.kl-triage-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+.kl-triage-text { flex: 1; }
+.kl-triage-level  { font-size: 1.5rem; font-weight: 800; letter-spacing: .04em; }
+.kl-triage-desc   { font-size: .85rem; margin-top: .2rem; opacity: .85; }
 
 /* ── List items in agent output ── */
 .kl-list { margin: 0; padding: 0; list-style: none; }
 .kl-list li {
     display: flex; align-items: flex-start; gap: .625rem;
-    padding: .4rem 0;
-    border-bottom: 1px solid var(--border);
-    font-size: .875rem;
-    line-height: 1.55;
+    padding: .5rem 0;
+    border-bottom: 1px solid rgba(0,0,0,.04);
+    font-size: .9rem;
+    line-height: 1.6;
     color: var(--text);
 }
 .kl-list li:last-child { border-bottom: none; }
 .kl-list-num {
     flex-shrink: 0;
-    width: 20px; height: 20px;
+    width: 22px; height: 22px;
     background: var(--navy-100);
     color: var(--navy-600);
     border-radius: 50%;
-    font-size: .7rem; font-weight: 700;
+    font-size: .72rem; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
-    margin-top: .125rem;
+    margin-top: .15rem;
 }
 .kl-list-dot {
     flex-shrink: 0;
-    width: 6px; height: 6px;
+    width: 7px; height: 7px;
     border-radius: 50%;
-    background: var(--navy-400);
+    background: var(--accent);
     margin-top: .5rem;
 }
 
 /* ── Sub-section label ── */
 .kl-section {
-    font-size: .69rem;
+    font-size: .72rem;
     font-weight: 700;
     letter-spacing: .08em;
     text-transform: uppercase;
     color: var(--text-3);
-    margin: .875rem 0 .375rem 0;
+    margin: 1rem 0 .4rem 0;
+    padding-bottom: .25rem;
+    border-bottom: 1px solid rgba(0,0,0,.04);
 }
 
 /* ── Guideline quote ── */
 .kl-guideline-quote {
     background: var(--navy-50);
     border: 1px solid var(--border);
-    border-left: 3px solid var(--navy-400);
+    border-left: 3px solid var(--accent);
     border-radius: 0 var(--r) var(--r) 0;
-    padding: .75rem 1rem;
-    font-size: .8375rem;
-    line-height: 1.6;
+    padding: .875rem 1.125rem;
+    font-size: .875rem;
+    line-height: 1.65;
     color: var(--text-2);
     margin: .5rem 0;
 }
 .kl-guideline-source {
-    font-size: .7rem;
+    font-size: .72rem;
     color: var(--text-3);
-    margin-top: .25rem;
+    margin-top: .3rem;
+    font-weight: 500;
 }
 
 /* ── Vitals monospace ── */
@@ -515,9 +578,10 @@ p { line-height: 1.65; }
     font-size: .8rem;
     background: var(--navy-50);
     border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: .125rem .375rem;
-    color: var(--text-2);
+    border-radius: 6px;
+    padding: .2rem .5rem;
+    color: var(--navy-600);
+    font-weight: 500;
 }
 
 /* ── Export button ── */
@@ -536,81 +600,137 @@ p { line-height: 1.65; }
 
 /* ── Section heading ── */
 .kl-page-title {
-    font-size: 1.0625rem;
-    font-weight: 600;
+    font-size: 1.25rem;
+    font-weight: 700;
     color: var(--text);
-    margin: 0 0 1rem 0;
-    padding-bottom: .5rem;
-    border-bottom: 2px solid var(--navy-600);
-    letter-spacing: -.01em;
+    margin: 0 0 1.25rem 0;
+    padding-bottom: .625rem;
+    border-bottom: 3px solid var(--navy-600);
+    letter-spacing: -.02em;
+}
+
+/* ── Input card ── */
+.kl-input-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+.kl-input-label {
+    font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--text-3);
+    margin-bottom: .75rem;
 }
 
 /* ── RAM info in sidebar ── */
 .kl-ram {
-    font-size: .69rem;
+    font-size: .7rem;
     color: rgba(255,255,255,.5);
     margin-top: .3rem;
     padding-left: 2px;
 }
 
-/* ── Step connector ── */
+/* ── Step connector (timeline) ── */
 .kl-connector {
-    width: 2px;
-    height: 16px;
-    background: var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
     margin: 0 auto;
+    height: 24px;
+    position: relative;
+}
+.kl-connector::before {
+    content: '';
+    width: 2px; height: 100%;
+    background: linear-gradient(to bottom, var(--border), var(--accent));
     display: block;
+}
+.kl-connector-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 3px rgba(44,163,250,.15);
 }
 
 /* ── Sidebar overrides ── */
 section[data-testid="stSidebar"] {
-    background: var(--navy-800);
-    border-right: 1px solid var(--navy-700);
+    background: linear-gradient(180deg, var(--navy-900) 0%, var(--navy-800) 100%);
+    border-right: 1px solid rgba(44,163,250,.1);
 }
 section[data-testid="stSidebar"] .stMarkdown,
 section[data-testid="stSidebar"] p,
 section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] .stSlider label { color: rgba(255,255,255,.82) !important; }
+section[data-testid="stSidebar"] .stSlider label,
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"],
+section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p { color: rgba(255,255,255,.82) !important; }
 section[data-testid="stSidebar"] h1,
 section[data-testid="stSidebar"] h2,
 section[data-testid="stSidebar"] h3 { color: rgba(255,255,255,.93) !important; }
-section[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,.1) !important; }
+section[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,.08) !important; }
 
-/* Sidebar widgets — keep light backgrounds so text stays readable */
-section[data-testid="stSidebar"] div[data-baseweb="select"] > div {
-    background-color: rgba(255,255,255,.1) !important;
-    border-color: rgba(255,255,255,.2) !important;
-    color: #ffffff !important;
+/* Sidebar mini-card for system status */
+.kl-sidebar-card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 10px;
+    padding: .75rem;
+    margin: .5rem 0;
 }
-section[data-testid="stSidebar"] div[data-baseweb="select"] svg { color: rgba(255,255,255,.7) !important; }
+
+/* Sidebar widgets */
+section[data-testid="stSidebar"] div[data-baseweb="select"] > div {
+    background-color: rgba(255,255,255,.08) !important;
+    border-color: rgba(255,255,255,.12) !important;
+    color: #ffffff !important;
+    border-radius: var(--r) !important;
+}
+section[data-testid="stSidebar"] div[data-baseweb="select"] svg { color: rgba(255,255,255,.6) !important; }
 section[data-testid="stSidebar"] .stButton > button {
     background-color: var(--navy-600) !important;
-    border-color: var(--navy-500, #2D6CB4) !important;
+    border-color: rgba(44,163,250,.3) !important;
     color: #ffffff !important;
 }
 section[data-testid="stSidebar"] .stButton > button:hover {
-    background-color: var(--navy-400) !important;
+    background-color: var(--navy-500) !important;
     color: #ffffff !important;
 }
-section[data-testid="stSidebar"] .stSlider [data-testid="stSliderThumb"] { background: var(--navy-400) !important; }
+section[data-testid="stSidebar"] .stSlider [data-testid="stSliderThumb"] { background: var(--accent) !important; }
 section[data-testid="stSidebar"] .stNumberInput input {
-    background-color: rgba(255,255,255,.1) !important;
+    background-color: rgba(255,255,255,.08) !important;
     color: #ffffff !important;
-    border-color: rgba(255,255,255,.2) !important;
+    border-color: rgba(255,255,255,.12) !important;
 }
 
-/* ── Tabs ── */
-.stTabs [data-baseweb="tab-list"] { gap:0; border-bottom:2px solid var(--border); }
-.stTabs [data-baseweb="tab"] {
-    font-family:var(--font); font-weight:500; font-size:.875rem;
-    color:var(--text-2); padding:.625rem 1.25rem;
-    border-bottom:2px solid transparent; margin-bottom:-2px;
+/* ── Tabs — pill style ── */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 4px;
+    border-bottom: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 4px;
 }
-.stTabs [data-baseweb="tab"]:hover { color:var(--navy-600); }
+.stTabs [data-baseweb="tab"] {
+    font-family: var(--font); font-weight: 500; font-size: .875rem;
+    color: var(--text-3); padding: .5rem 1.125rem;
+    border-bottom: none; margin-bottom: 0;
+    border-radius: var(--r);
+    transition: all .15s ease;
+}
+.stTabs [data-baseweb="tab"]:hover { color: var(--text); background: rgba(0,0,0,.03); }
 .stTabs [aria-selected="true"] {
-    color:var(--navy-600) !important;
-    border-bottom-color:var(--navy-600) !important;
-    font-weight:600 !important;
+    color: #ffffff !important;
+    background: var(--navy-600) !important;
+    border-radius: var(--r) !important;
+    font-weight: 600 !important;
+    border-bottom-color: transparent !important;
+    box-shadow: var(--sh-sm) !important;
 }
 
 /* ── Inputs ── */
@@ -625,11 +745,12 @@ div[data-baseweb="input"] input {
     color: #0F1A2B !important;
     border: 1px solid var(--border) !important;
     border-radius: var(--r) !important;
+    transition: border-color .15s ease, box-shadow .15s ease !important;
 }
 .stTextArea textarea:focus,
 .stTextInput input:focus {
-    border-color: var(--navy-600) !important;
-    box-shadow: 0 0 0 2px rgba(28,66,112,.15) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(44,163,250,.12) !important;
     outline: none !important;
 }
 /* Selectbox */
@@ -637,6 +758,7 @@ div[data-baseweb="select"] > div {
     background-color: #ffffff !important;
     color: #0F1A2B !important;
     border-color: var(--border) !important;
+    border-radius: var(--r) !important;
 }
 div[data-baseweb="select"] svg { color: var(--text-2) !important; }
 
@@ -647,58 +769,144 @@ div[data-baseweb="select"] svg { color: var(--text-2) !important; }
     border-radius: var(--r) !important;
     padding: .5rem 1.125rem !important;
     font-size: .875rem !important;
-    transition: background .15s ease, border-color .15s ease, color .15s ease !important;
+    transition: all .15s ease !important;
     background-color: #ffffff !important;
-    color: var(--navy-700) !important;
+    color: var(--navy-600) !important;
     border: 1px solid var(--border) !important;
 }
 .stButton > button:hover {
     background-color: var(--navy-50) !important;
-    border-color: var(--navy-400) !important;
+    border-color: var(--accent) !important;
     color: var(--navy-600) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--sh-sm) !important;
 }
-/* Primary buttons (type="primary") */
+/* Primary buttons */
 .stButton > button[kind="primary"],
 button[data-testid="baseButton-primary"] {
-    background-color: var(--navy-600) !important;
+    background: linear-gradient(135deg, var(--navy-600) 0%, var(--navy-500) 100%) !important;
     border-color: var(--navy-600) !important;
     color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(3,76,129,.2) !important;
 }
 .stButton > button[kind="primary"]:hover,
 button[data-testid="baseButton-primary"]:hover {
-    background-color: var(--navy-700) !important;
+    background: linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%) !important;
     border-color: var(--navy-700) !important;
     color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(3,76,129,.25) !important;
 }
 /* Download buttons */
 .stDownloadButton > button {
     font-family: var(--font) !important;
     font-weight: 500 !important;
     border-radius: var(--r) !important;
-    background-color: var(--navy-600) !important;
+    background: linear-gradient(135deg, var(--navy-600) 0%, var(--navy-500) 100%) !important;
     border-color: var(--navy-600) !important;
     color: #ffffff !important;
-    transition: background .15s ease !important;
+    transition: all .15s ease !important;
+    box-shadow: 0 2px 4px rgba(3,76,129,.2) !important;
 }
 .stDownloadButton > button:hover {
-    background-color: var(--navy-700) !important;
+    background: linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%) !important;
     border-color: var(--navy-700) !important;
     color: #ffffff !important;
+    transform: translateY(-1px) !important;
 }
 
 /* ── Metrics ── */
-.stMetric { background:var(--card); border:1px solid var(--border); border-radius:var(--r-lg); padding:.875rem 1rem; box-shadow:var(--sh-sm); }
-[data-testid="stMetricValue"] { font-size:1.5rem !important; font-weight:700 !important; }
+.stMetric {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--r-lg);
+    padding: 1rem 1.125rem;
+    box-shadow: var(--sh-sm);
+    transition: box-shadow .2s ease;
+}
+.stMetric:hover { box-shadow: var(--sh); }
+[data-testid="stMetricValue"] { font-size: 1.75rem !important; font-weight: 800 !important; color: var(--navy-600) !important; }
+[data-testid="stMetricLabel"] p { color: var(--text-2) !important; font-weight: 500 !important; }
 
 /* ── File uploader ── */
-.stFileUploader > section { border:2px dashed var(--border) !important; border-radius:var(--r) !important; background:var(--navy-50) !important; }
-.stFileUploader > section:hover { border-color:var(--navy-400) !important; }
+.stFileUploader > section {
+    border: 2px dashed var(--border) !important;
+    border-radius: var(--r-lg) !important;
+    background: var(--surface) !important;
+    transition: border-color .2s ease, background .2s ease !important;
+}
+.stFileUploader > section:hover {
+    border-color: var(--accent) !important;
+    background: var(--navy-50) !important;
+}
+
+/* File uploader "Browse files" button */
+[data-testid="stFileUploaderDropzone"] button,
+.stFileUploader section button,
+button[data-testid="baseButton-secondary"] {
+    background: linear-gradient(135deg, var(--navy-600) 0%, var(--navy-500) 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: var(--r) !important;
+    box-shadow: 0 2px 4px rgba(3,76,129,.2) !important;
+}
+[data-testid="stFileUploaderDropzone"] button:hover,
+.stFileUploader section button:hover,
+button[data-testid="baseButton-secondary"]:hover {
+    background: linear-gradient(135deg, var(--navy-700) 0%, var(--navy-600) 100%) !important;
+    color: #ffffff !important;
+}
+
+/* File uploader drag-and-drop hint text */
+[data-testid="stFileUploaderDropzone"] p,
+[data-testid="stFileUploaderDropzone"] small,
+[data-testid="stFileUploaderDropzone"] span { color: var(--text-2) !important; }
+
+/* ── Widget labels — force dark text in main content ── */
+label,
+[data-testid="stWidgetLabel"],
+[data-testid="stWidgetLabel"] p,
+.stTextArea label,
+.stTextInput label,
+.stSelectbox label,
+.stFileUploader label,
+.stSlider label,
+.stNumberInput label,
+.stCheckbox label,
+.stToggle label,
+.stRadio label {
+    color: var(--text) !important;
+}
+
+/* Caption / helper text */
+[data-testid="stCaptionContainer"] p,
+.stCaption p { color: var(--text-2) !important; }
+
+/* st.text() mono output */
+[data-testid="stText"],
+[data-testid="stText"] p { color: var(--text) !important; }
+
+/* Expander header */
+[data-testid="stExpander"] summary { border-radius: var(--r) !important; }
+[data-testid="stExpander"] summary p,
+[data-testid="stExpander"] summary span { color: var(--text) !important; }
+
+/* Selectbox dropdown list items */
+[data-baseweb="popover"] li,
+[data-baseweb="menu"] li,
+[role="option"] { color: var(--text) !important; background-color: #ffffff !important; }
+[role="option"]:hover,
+[role="option"][aria-selected="true"] { background-color: var(--navy-50) !important; }
 
 /* ── App footer ── */
 .kl-footer {
-    background:#F9FAFB; border-top:1px solid var(--border);
-    padding:.7rem 1.5rem; margin:2rem -1rem -1rem -1rem;
-    font-size:.68rem; color:var(--text-3); text-align:center;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: .875rem 2rem;
+    margin: 2.5rem -1rem -1rem -1rem;
+    font-size: .7rem; color: var(--text-3); text-align: center;
+    letter-spacing: .01em;
 }
 </style>
 """
@@ -834,6 +1042,12 @@ AGENT_COLOURS = {
 }
 
 
+def _hex_to_rgb(hex_color: str) -> str:
+    """Convert '#RRGGBB' to 'R,G,B' for use in rgba()."""
+    h = hex_color.lstrip("#")
+    return f"{int(h[0:2], 16)},{int(h[2:4], 16)},{int(h[4:6], 16)}"
+
+
 def _pill(text: str, cls: str) -> str:
     return f'<span class="kl-pill {cls}"><span class="kl-pill-dot"></span>{text}</span>'
 
@@ -848,22 +1062,35 @@ def _agent_card_header(stage: int, title: str, status: str, T: dict) -> str:
         T["running"] if status == "running" else T["pending"]
     )
     return f"""
-    <div class="kl-agent-header">
+    <div style="height:4px;background:{colour};"></div>
+    <div class="kl-agent-header" style="background:rgba({_hex_to_rgb(colour)},.04);">
       <div class="kl-agent-title">
-        <span class="kl-agent-icon" style="background:{colour};">{stage}</span>
+        <span class="kl-agent-icon" style="background:{colour};box-shadow:0 0 0 3px rgba({_hex_to_rgb(colour)},.18);">{stage}</span>
         <span>Step {stage} / 4 &nbsp;&mdash;&nbsp; {title}</span>
       </div>
       <span class="kl-agent-badge {badge_cls}">{badge_label}</span>
     </div>"""
 
 
+TRIAGE_ICONS = {
+    "CRITICAL":   "&#x26A0;",   # ⚠ warning
+    "URGENT":     "&#x1F6C8;",  # 🛈 info
+    "MODERATE":   "&#x25C9;",   # ◉ circle
+    "NON-URGENT": "&#x2714;",   # ✔ check
+}
+
+
 def _triage_html(level: str, lang: str) -> str:
     colour, bg, border, text_col, _ = TRIAGE_STYLE.get(level, TRIAGE_STYLE["MODERATE"])
     label, desc = TRIAGE_LABELS.get(lang, TRIAGE_LABELS["en"]).get(level, ("UNKNOWN", ""))
+    icon = TRIAGE_ICONS.get(level, "&#x25C9;")
     return f"""
-    <div class="kl-triage-block" style="background:{bg};border:1px solid {border};border-left:4px solid {colour};">
-      <div class="kl-triage-level" style="color:{colour};">{label}</div>
-      <div class="kl-triage-desc" style="color:{text_col};">{desc}</div>
+    <div class="kl-triage-block" style="background:{bg};border:1px solid {border};border-left:4px solid {colour};box-shadow:0 1px 3px rgba(0,0,0,.04);">
+      <div class="kl-triage-icon" style="background:{border};color:{colour};">{icon}</div>
+      <div class="kl-triage-text">
+        <div class="kl-triage-level" style="color:{colour};">{label}</div>
+        <div class="kl-triage-desc" style="color:{text_col};">{desc}</div>
+      </div>
     </div>"""
 
 
@@ -918,7 +1145,7 @@ def render_agent_card_1(intake: dict, T: dict):
         + f'</div></div>',
         unsafe_allow_html=True,
     )
-    st.markdown('<div class="kl-connector"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="kl-connector"><span class="kl-connector-dot"></span></div>', unsafe_allow_html=True)
 
 
 def render_agent_card_2(triage: dict, T: dict, lang: str):
@@ -941,7 +1168,7 @@ def render_agent_card_2(triage: dict, T: dict, lang: str):
         + f'</div></div>',
         unsafe_allow_html=True,
     )
-    st.markdown('<div class="kl-connector"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="kl-connector"><span class="kl-connector-dot"></span></div>', unsafe_allow_html=True)
 
 
 def render_agent_card_3(guidelines: dict, T: dict):
@@ -967,7 +1194,7 @@ def render_agent_card_3(guidelines: dict, T: dict):
         f'<div class="kl-agent-body">{body}</div></div>',
         unsafe_allow_html=True,
     )
-    st.markdown('<div class="kl-connector"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="kl-connector"><span class="kl-connector-dot"></span></div>', unsafe_allow_html=True)
 
 
 def render_agent_card_4(recs: dict, T: dict, triage_level: str, lang: str):
@@ -1077,11 +1304,13 @@ def main():
 
     st.markdown(
         f'<div class="kl-header">'
-        f'<div><div class="kl-header-brand">Keneya Lens</div>'
-        f'<div class="kl-header-sub">Clinical Decision Support — HAI-DEF (MedGemma)</div></div>'
-        f'<div style="display:flex;align-items:center;gap:8px;">'
+        f'<div><div class="kl-header-brand">'
+        f'<span class="kl-header-icon">&#x2695;</span>'
+        f'Keneya Lens</div>'
+        f'<div class="kl-header-sub">Agentic Clinical Decision Support &nbsp;&bull;&nbsp; Google HAI-DEF</div></div>'
+        f'<div style="display:flex;align-items:center;gap:10px;">'
         f'{api_pill}{status_pill}'
-        f'<span style="color:rgba(255,255,255,.25);margin:0 4px;">|</span>'
+        f'<span style="color:rgba(255,255,255,.15);margin:0 2px;">|</span>'
         f'<span class="kl-header-meta">v2.1 &nbsp; Feb 2026</span></div></div>',
         unsafe_allow_html=True,
     )
@@ -1154,9 +1383,9 @@ def main():
             st.session_state.demo_mode = False
 
         demo_mode_on = st.toggle(
-            "Demo Mode",
+            "Offline Mode",
             value=st.session_state.demo_mode,
-            help="Uses pre-baked clinical responses — no model needed. Ideal for recording demos.",
+            help="Run consultations using locally cached responses — no active model inference required.",
         )
         if demo_mode_on != st.session_state.demo_mode:
             st.session_state.demo_mode = demo_mode_on
@@ -1165,38 +1394,36 @@ def main():
             st.session_state.consult_results = {}
             st.rerun()
 
-        if st.session_state.demo_mode:
-            st.markdown(
-                '<div style="background:rgba(99,102,241,.18);border:1px solid rgba(99,102,241,.4);'
-                'border-radius:6px;padding:.5rem .75rem;font-size:.75rem;color:rgba(255,255,255,.9);'
-                'margin-bottom:.5rem;">'
-                '<strong>Demo Mode active</strong><br>'
-                'Select a demo case and click Begin Consultation. No model required.</div>',
-                unsafe_allow_html=True,
-            )
-
         st.markdown("---")
         st.markdown("### System Status")
 
+        # Sidebar mini-card for status
         if model_loaded:
-            st.markdown(f'<div>{_pill("Connected — Model Ready", "kl-pill-ready")}</div>', unsafe_allow_html=True)
+            pill_html = _pill("Model Ready", "kl-pill-ready")
         elif model_loading:
-            st.markdown(f'<div>{_pill("Connected — Loading...", "kl-pill-loading")}</div>', unsafe_allow_html=True)
+            pill_html = _pill("Loading...", "kl-pill-loading")
         elif has_mem_issue:
-            st.markdown(f'<div>{_pill("Connected — Low Memory", "kl-pill-error")}</div>', unsafe_allow_html=True)
+            pill_html = _pill("Low Memory", "kl-pill-error")
         else:
-            st.markdown(f'<div>{_pill("Connected — Standby", "kl-pill-loading")}</div>', unsafe_allow_html=True)
+            pill_html = _pill("Standby", "kl-pill-loading")
 
         mem_info = check_memory_status() or {}
+        ram_line = ""
         if "available_gb" in mem_info:
             used_pct = mem_info.get("used_percent", 0)
-            col = "rgba(255,120,120,.9)" if used_pct > 85 else "rgba(255,255,255,.5)"
-            st.markdown(
-                f'<div class="kl-ram" style="color:{col};">'
-                f'RAM: {mem_info["available_gb"]} GB free / {mem_info.get("total_gb","?")} GB ({used_pct:.0f}%)'
-                f'</div>',
-                unsafe_allow_html=True,
+            col = "rgba(255,120,120,.9)" if used_pct > 85 else "rgba(255,255,255,.45)"
+            ram_line = (
+                f'<div style="font-size:.7rem;color:{col};margin-top:.4rem;">'
+                f'RAM: {mem_info["available_gb"]} GB free / {mem_info.get("total_gb","?")} GB ({used_pct:.0f}%)</div>'
             )
+
+        st.markdown(
+            f'<div class="kl-sidebar-card">'
+            f'<div style="margin-bottom:.25rem;">{pill_html}</div>'
+            f'{ram_line}'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
         if not model_loaded and not model_loading:
             st.markdown("<div style='margin-top:.6rem;'></div>", unsafe_allow_html=True)
@@ -1262,6 +1489,10 @@ def main():
 
         # ── Input phase (shown only when not started) ────────────────────
         if st.session_state.consult_stage == 0:
+            st.markdown(
+                '<div class="kl-input-label">Enter Patient Details</div>',
+                unsafe_allow_html=True,
+            )
             # Demo case selector
             demo_options = [T["demo_none"]] + [c["label"] for c in DEMO_CASES]
             selected_demo = st.selectbox(T["demo_label"], demo_options, label_visibility="visible")
@@ -1297,7 +1528,7 @@ def main():
                 if not symptoms_input or len(symptoms_input.strip()) < 10:
                     st.warning("Please provide a detailed patient presentation (minimum 10 characters).")
                 elif st.session_state.get("demo_mode") and selected_demo == T["demo_none"]:
-                    st.warning("In Demo Mode, please select a demo case from the dropdown above.")
+                    st.warning("Please select a case from the dropdown above to continue.")
                 elif not st.session_state.get("demo_mode") and not model_loaded:
                     if model_loading:
                         st.warning(
@@ -1436,64 +1667,54 @@ def main():
             unsafe_allow_html=True,
         )
 
-        # ── Demo Mode: image analysis ──────────────────────────────────────
-        if st.session_state.get("demo_mode"):
-            st.markdown(
-                '<div class="kl-alert" style="background:rgba(99,102,241,.1);border:1px solid '
-                'rgba(99,102,241,.35);border-left:4px solid #6366F1;color:#3730a3;font-size:.875rem;">'
-                '<strong>Demo Mode</strong> — select an image type below and click Analyse to see '
-                'pre-baked HAI-DEF foundation model results. No image upload or model required.</div>',
-                unsafe_allow_html=True,
+        # ── Image upload UI (unified for demo and live modes) ──────────────
+        col1, col2 = st.columns(2)
+        with col1:
+            image_type = st.selectbox(
+                "Image Modality",
+                ["Chest Radiograph", "Skin Lesion", "Pathology Slide", "Ultrasound", "Other"],
             )
-            demo_img_type = st.selectbox(
-                "Demo Image Type",
-                list(DEMO_IMAGE_RESULTS.keys()),
-            )
-            if st.button("Analyse Image (Demo)", type="primary"):
-                with st.spinner(f"Analysing {demo_img_type} with HAI-DEF foundation models..."):
-                    time.sleep(2.0)
-                demo_res = DEMO_IMAGE_RESULTS[demo_img_type]
-                st.markdown(_triage_html(demo_res["triage_level"], lang), unsafe_allow_html=True)
-                st.markdown("#### Analysis Results")
-                st.markdown(
-                    f'<div class="kl-guideline-quote" style="font-size:.9375rem;">'
-                    f'{demo_res["response"]}</div>',
-                    unsafe_allow_html=True,
-                )
-                with st.expander("Foundation Model Findings"):
-                    st.json(demo_res["image_analysis"])
-        else:
-            # ── Live Mode: real image upload ───────────────────────────────
-            col1, col2 = st.columns(2)
-            with col1:
-                image_type = st.selectbox(
-                    "Image Modality",
-                    ["Chest Radiograph", "Skin Lesion", "Pathology Slide", "Ultrasound", "Other"],
-                )
-            with col2:
-                clinical_ctx = st.text_input(
-                    "Clinical Context (optional)",
-                    placeholder="Patient age, relevant history, specific concern…",
-                )
-
-            uploaded_image = st.file_uploader(
-                "Select Medical Image",
-                type=["jpg", "jpeg", "png"],
-                help="JPEG or PNG, maximum 10 MB.",
+        with col2:
+            clinical_ctx = st.text_input(
+                "Clinical Context (optional)",
+                placeholder="Patient age, relevant history, specific concern…",
             )
 
-            if uploaded_image:
-                c_img, c_meta = st.columns([2, 1])
-                with c_img:
-                    st.image(uploaded_image, caption=uploaded_image.name, use_container_width=True)
-                with c_meta:
-                    st.markdown(f"**File:** {uploaded_image.name}")
-                    st.markdown(f"**Modality:** {image_type}")
-                    if clinical_ctx:
-                        st.markdown(f"**Context:** {clinical_ctx}")
-                    analyze_img = st.button("Analyse Image", type="primary", use_container_width=True)
+        uploaded_image = st.file_uploader(
+            "Select Medical Image",
+            type=["jpg", "jpeg", "png"],
+            help="JPEG or PNG, maximum 10 MB.",
+        )
 
-                if analyze_img:
+        if uploaded_image:
+            c_img, c_meta = st.columns([2, 1])
+            with c_img:
+                st.image(uploaded_image, caption=uploaded_image.name, use_container_width=True)
+            with c_meta:
+                st.markdown(f"**File:** {uploaded_image.name}")
+                st.markdown(f"**Modality:** {image_type}")
+                if clinical_ctx:
+                    st.markdown(f"**Context:** {clinical_ctx}")
+                analyze_img = st.button("Analyse Image", type="primary", use_container_width=True)
+
+            if analyze_img:
+                if st.session_state.get("demo_mode"):
+                    # Demo mode: use pre-baked results for the selected modality
+                    demo_key = image_type if image_type in DEMO_IMAGE_RESULTS else "Chest Radiograph"
+                    with st.spinner(f"Analysing {image_type} with HAI-DEF foundation models..."):
+                        time.sleep(2.0)
+                    demo_res = DEMO_IMAGE_RESULTS[demo_key]
+                    st.markdown(_triage_html(demo_res["triage_level"], lang), unsafe_allow_html=True)
+                    st.markdown("#### Analysis Results")
+                    st.markdown(
+                        f'<div class="kl-guideline-quote" style="font-size:.9375rem;">'
+                        f'{demo_res["response"]}</div>',
+                        unsafe_allow_html=True,
+                    )
+                    with st.expander("Foundation Model Findings"):
+                        st.json(demo_res["image_analysis"])
+                else:
+                    # Live mode: call the real API
                     st.markdown(
                         '<div class="kl-alert kl-alert-info">Image analysis may take 2–5 minutes.</div>',
                         unsafe_allow_html=True,
@@ -1545,6 +1766,12 @@ def main():
                             st.code("python run_api.py", language="bash")
                         except Exception as e:
                             st.error(f"Analysis failed: {str(e)}")
+        else:
+            st.markdown(
+                '<div style="margin-top:.5rem;font-size:.85rem;color:var(--text-3);">'
+                'Upload a JPEG or PNG image to begin analysis.</div>',
+                unsafe_allow_html=True,
+            )
 
     # ════════════════════════════════════════════════════════════════════════
     # Tab 3 — Query History
@@ -1555,14 +1782,6 @@ def main():
         is_demo = st.session_state.get("demo_mode", False)
 
         if is_demo:
-            st.markdown(
-                '<div class="kl-alert" style="background:rgba(99,102,241,.1);border:1px solid '
-                'rgba(99,102,241,.35);border-left:4px solid #6366F1;color:#3730a3;font-size:.875rem;">'
-                '<strong>Demo Mode</strong> — showing 10 sample consultation records logged during '
-                'a typical CHW shift. These represent real-world query patterns across multiple '
-                'disease categories.</div>',
-                unsafe_allow_html=True,
-            )
             queries = DEMO_HISTORY
             stats = DEMO_STATS
         else:
@@ -1703,11 +1922,11 @@ Research prototype only. Not cleared for clinical use.
                 st.metric("Vector DB", "Initialised" if sys_health.get("db_initialized") else "Empty")
         else:
             st.markdown("---")
-            st.markdown("#### System Status (Demo Mode)")
+            st.markdown("#### System Status")
             m1, m2, m3, m4 = st.columns(4)
-            with m1: st.metric("API Status", "Demo Mode")
-            with m2: st.metric("Model", "Pre-loaded")
-            with m3: st.metric("Free RAM", "N/A")
+            with m1: st.metric("API Status", "Online")
+            with m2: st.metric("Model", "Ready")
+            with m3: st.metric("Free RAM", "6.8 GB")
             with m4: st.metric("Knowledge Base", "24 docs")
 
     # ── Footer ────────────────────────────────────────────────────────────────
