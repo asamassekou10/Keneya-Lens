@@ -34,6 +34,14 @@ try:
 except Exception:
     DEMO_CASES = []
 
+# ── Pre-baked demo responses (used in Demo Mode — bypasses model entirely) ─────
+DEMO_RESPONSES_PATH = Path(__file__).parent.parent / "data" / "demo_responses.json"
+try:
+    with open(DEMO_RESPONSES_PATH, encoding="utf-8") as _f:
+        DEMO_RESPONSES = json.load(_f)
+except Exception:
+    DEMO_RESPONSES = {}
+
 # ── Translations ───────────────────────────────────────────────────────────────
 TRANSLATIONS = {
     "en": {
@@ -600,7 +608,24 @@ def trigger_model_load() -> Optional[dict]:
 
 
 def call_stage(stage: int, context: dict, language: str = "en") -> dict:
-    """Call a single agent stage endpoint. Always returns a dict."""
+    """
+    Call a single agent stage endpoint. Always returns a dict.
+
+    In Demo Mode (st.session_state.demo_mode = True), returns pre-baked responses
+    instantly from data/demo_responses.json — no model or API required.
+    """
+    # ── Demo Mode short-circuit ──────────────────────────────────────────────
+    if st.session_state.get("demo_mode", False):
+        case_id = st.session_state.get("demo_case_id", "")
+        stage_key = f"stage_{stage}"
+        case_data = DEMO_RESPONSES.get(case_id, {})
+        stage_data = case_data.get(stage_key, {})
+        if stage_data:
+            time.sleep(1.2)  # brief pause so progress feels real on screen
+            return {"success": True, "result": stage_data}
+        return {"success": False, "error": f"No demo response for case '{case_id}', stage {stage}."}
+
+    # ── Live mode: call the real API ─────────────────────────────────────────
     try:
         r = requests.post(
             f"{API_BASE_URL}/consult/stage",
@@ -991,6 +1016,34 @@ def main():
             st.rerun()
 
         st.markdown("---")
+
+        # ── Demo Mode toggle ─────────────────────────────────────────────────
+        if "demo_mode" not in st.session_state:
+            st.session_state.demo_mode = False
+
+        demo_mode_on = st.toggle(
+            "Demo Mode",
+            value=st.session_state.demo_mode,
+            help="Uses pre-baked clinical responses — no model needed. Ideal for recording demos.",
+        )
+        if demo_mode_on != st.session_state.demo_mode:
+            st.session_state.demo_mode = demo_mode_on
+            st.session_state.consult_stage = 0
+            st.session_state.consult_context = {}
+            st.session_state.consult_results = {}
+            st.rerun()
+
+        if st.session_state.demo_mode:
+            st.markdown(
+                '<div style="background:rgba(99,102,241,.18);border:1px solid rgba(99,102,241,.4);'
+                'border-radius:6px;padding:.5rem .75rem;font-size:.75rem;color:rgba(255,255,255,.9);'
+                'margin-bottom:.5rem;">'
+                '<strong>Demo Mode active</strong><br>'
+                'Select a demo case and click Begin Consultation. No model required.</div>',
+                unsafe_allow_html=True,
+            )
+
+        st.markdown("---")
         st.markdown("### System Status")
 
         if model_loaded:
@@ -1111,7 +1164,9 @@ def main():
             if begin:
                 if not symptoms_input or len(symptoms_input.strip()) < 10:
                     st.warning("Please provide a detailed patient presentation (minimum 10 characters).")
-                elif not model_loaded:
+                elif st.session_state.get("demo_mode") and selected_demo == T["demo_none"]:
+                    st.warning("In Demo Mode, please select a demo case from the dropdown above.")
+                elif not st.session_state.get("demo_mode") and not model_loaded:
                     if model_loading:
                         st.warning(
                             "The model is still loading — this can take several minutes on first run. "
@@ -1125,6 +1180,12 @@ def main():
                             "then wait for the **Model Ready** indicator before starting."
                         )
                 else:
+                    # Store demo case ID so call_stage() can look up pre-baked responses
+                    if st.session_state.get("demo_mode") and selected_demo != T["demo_none"]:
+                        for case in DEMO_CASES:
+                            if case["label"] == selected_demo:
+                                st.session_state.demo_case_id = case["id"]
+                                break
                     st.session_state.consult_stage = 1
                     st.session_state.consult_context = {
                         "raw_input": symptoms_input,

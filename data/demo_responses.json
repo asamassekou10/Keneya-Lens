@@ -1,0 +1,365 @@
+{
+  "demo_pneumonia_child": {
+    "stage_1": {
+      "age": "4 years",
+      "sex": "male",
+      "chief_complaint": "Cough and fever",
+      "duration": "3 days (cough), 1 day (fever)",
+      "vital_signs": {
+        "temperature": "38.8°C",
+        "respiratory_rate": "42 breaths/min",
+        "feeding": "Refusing food and drink"
+      },
+      "relevant_history": "No history of asthma or prior hospitalisation. No medications given. Located 40 km from district hospital.",
+      "raw_input": "",
+      "success": true,
+      "error": null
+    },
+    "stage_2": {
+      "triage_level": "URGENT",
+      "red_flags": [
+        "Fast breathing — RR 42/min (threshold ≥40/min for age 12–60 months)",
+        "Mild lower chest wall indrawing",
+        "Fever with refusal to drink",
+        "Remote location — 40 km from referral facility"
+      ],
+      "differential_diagnoses": [
+        "Bacterial pneumonia (primary)",
+        "Viral lower respiratory tract infection",
+        "Bronchiolitis"
+      ],
+      "reasoning": "This 4-year-old meets WHO IMCI fast-breathing criteria (≥40 breaths/min for age 1–5 years) and has chest indrawing, which together classify as severe pneumonia under IMCI guidelines. Refusal to drink is an additional IMCI danger sign. The remote location (40 km from hospital) amplifies urgency. Referral within 24 hours is indicated; give first antibiotic dose before transport.",
+      "success": true,
+      "error": null
+    },
+    "stage_3": {
+      "guidelines": [
+        "WHO IMCI: Children 2 months–5 years with cough or difficult breathing — count respirations for 60 seconds. Fast breathing for age 12–60 months is ≥40 breaths/min. Presence of fast breathing = pneumonia.",
+        "WHO IMCI: Chest indrawing combined with fast breathing indicates severe pneumonia. Classify as SEVERE PNEUMONIA — give first dose of antibiotic and refer urgently to hospital.",
+        "WHO IMCI danger signs requiring immediate referral: unable to drink or breastfeed, vomits everything, convulsions, lethargic or unconscious, stridor in calm child.",
+        "WHO Pocket Book of Hospital Care for Children: For severe pneumonia, administer benzylpenicillin 50,000 units/kg IM every 6 hours for at least 3 days, then switch to oral amoxicillin when improved."
+      ],
+      "citations": [
+        "WHO IMCI Chart Booklet (2014), Section 3: Cough or difficult breathing",
+        "WHO Pocket Book of Hospital Care for Children, 2nd ed. (2013), Chapter 4: The sick young infant",
+        "WHO IMCI Integrated Management of Childhood Illness — Distance Learning Course, Module 4"
+      ],
+      "context_count": 4,
+      "success": true,
+      "error": null
+    },
+    "stage_4": {
+      "immediate_actions": [
+        "Count respiratory rate for a full 60 seconds to confirm fast breathing (≥40/min)",
+        "Check for lower chest wall indrawing and central cyanosis (bluish lips/tongue)",
+        "Assess ability to drink — if unable to drink, classify as very severe disease",
+        "Give first dose of amoxicillin 250 mg orally (40 mg/kg; child ~16 kg → ~640 mg rounded to available dose)",
+        "Prepare for urgent referral to district hospital — arrange transport now"
+      ],
+      "treatment_notes": "First-line outpatient: oral amoxicillin 40 mg/kg/day in 2 divided doses for 5 days. At referral facility for severe pneumonia: IV/IM benzylpenicillin 50,000 units/kg every 6 hours. Do not delay transport for treatment.",
+      "referral_criteria": [
+        "SpO2 below 90% or central cyanosis",
+        "Unable to drink or breastfeed",
+        "Stridor when calm",
+        "Severe malnutrition or weight-for-age < -3 SD",
+        "No improvement after 48 hours of oral antibiotics",
+        "Worsening respiratory distress at any point"
+      ],
+      "monitoring_plan": "Reassess respiratory rate, chest indrawing, and ability to drink every 30 minutes while awaiting transport. If cyanosis develops or consciousness changes, treat as emergency and activate community transport immediately.",
+      "follow_up": "If referred: hospital review within 24 hours of admission. If not referred (community decision): return in 2 days or immediately if breathing worsens, fever exceeds 39°C, or child cannot drink.",
+      "safety_notes": "Do not give aspirin or salicylates to children under 16. Avoid cough suppressants. Paracetamol 15 mg/kg every 4–6 hours for fever comfort only. This recommendation is grounded in WHO IMCI guidelines — confirm with a supervising clinician before acting.",
+      "success": true,
+      "error": null
+    }
+  },
+  "demo_chest_pain_adult": {
+    "stage_1": {
+      "age": "45 years",
+      "sex": "male",
+      "chief_complaint": "Chest pain radiating to left arm and jaw",
+      "duration": "2 hours",
+      "vital_signs": {
+        "blood_pressure": "155/95 mmHg",
+        "heart_rate": "108 bpm",
+        "respiratory_rate": "22/min",
+        "presentation": "Diaphoresis, pressure sensation on chest"
+      },
+      "relevant_history": "No known heart disease. Active smoker. Father died young (presumed cardiac). Anxious appearance.",
+      "raw_input": "",
+      "success": true,
+      "error": null
+    },
+    "stage_2": {
+      "triage_level": "CRITICAL",
+      "red_flags": [
+        "Central chest pain with radiation to left arm and jaw — classic ACS pattern",
+        "Diaphoresis (sweating) with pressure sensation",
+        "Tachycardia HR 108 bpm",
+        "Hypertension 155/95 mmHg",
+        "Duration 2 hours — within thrombolysis window",
+        "High-risk profile: smoker, family history of early cardiac death"
+      ],
+      "differential_diagnoses": [
+        "ST-elevation myocardial infarction (STEMI) — primary",
+        "Non-ST-elevation myocardial infarction (NSTEMI)",
+        "Unstable angina",
+        "Aortic dissection (less likely — pain character)"
+      ],
+      "reasoning": "This 45-year-old male presents with the classic triad of acute coronary syndrome: central chest pain with radiation to the arm and jaw, diaphoresis, and a pressure quality. Combined with tachycardia, hypertension, and a high-risk profile (smoker, family history), this is a CRITICAL presentation. Every minute without reperfusion in STEMI results in irreversible myocardial loss — immediate emergency referral is mandatory.",
+      "success": true,
+      "error": null
+    },
+    "stage_3": {
+      "guidelines": [
+        "WHO Essential Medicines: Acute coronary syndrome — aspirin 300 mg loading dose immediately if no contraindication. Do not delay for ECG confirmation if clinical presentation is classic.",
+        "IMCI Advanced: Chest pain with radiation, diaphoresis, and haemodynamic instability requires immediate advanced care. Time-to-reperfusion is the key determinant of outcome.",
+        "Pre-hospital care: Position patient at rest, semi-recumbent. Do not allow exertion. Administer oxygen if available. Establish IV access if possible. Contact receiving facility before departure."
+      ],
+      "citations": [
+        "WHO Guidelines for the Pharmacological Treatment of Angina Pectoris (2022)",
+        "WHO Essential Medicines List — Cardiovascular Medicines",
+        "African Society of Cardiology: Acute Coronary Syndrome Management in Low-Resource Settings (2021)"
+      ],
+      "context_count": 3,
+      "success": true,
+      "error": null
+    },
+    "stage_4": {
+      "immediate_actions": [
+        "Call for emergency transport NOW — do not wait for symptoms to change",
+        "Position patient at rest, semi-recumbent (30–45 degrees), minimise all exertion",
+        "Give aspirin 300 mg crushed or chewed immediately (if no allergy, no active bleeding)",
+        "Administer oxygen via mask if SpO2 < 94% or oxygen is available",
+        "Establish IV access if trained and equipment available",
+        "Notify receiving hospital of suspected STEMI en route — activate cath lab if available"
+      ],
+      "treatment_notes": "Aspirin 300 mg loading dose is the single most impactful pre-hospital intervention for ACS. Do not give nitrates if BP < 90/60 or if patient has taken PDE5 inhibitors in past 24 hours. Morphine 2–4 mg IV for pain if available and trained.",
+      "referral_criteria": [
+        "ALL patients with suspected ACS must be referred — this is a non-negotiable emergency",
+        "Any deterioration in consciousness, BP drop, or cardiac arrest: begin CPR immediately"
+      ],
+      "monitoring_plan": "Monitor pulse, BP, and consciousness every 5 minutes during transport. If pulse becomes irregular or patient loses consciousness, be prepared to perform CPR. Do not leave patient alone.",
+      "follow_up": "In-hospital only. Emergency cardiology assessment, 12-lead ECG, troponin, and urgent reperfusion (thrombolysis or PCI) within 90 minutes of first medical contact.",
+      "safety_notes": "This is a time-critical emergency. Every 30-minute delay to reperfusion increases mortality by approximately 7.5%. Aspirin is the only pre-hospital medication routinely safe to give without specialist guidance. This summary must be confirmed by emergency medical personnel on arrival.",
+      "success": true,
+      "error": null
+    }
+  },
+  "demo_malaria_child": {
+    "stage_1": {
+      "age": "7 years",
+      "sex": "female",
+      "chief_complaint": "Fever and headache with body aches",
+      "duration": "2 days",
+      "vital_signs": {
+        "temperature": "39.5°C",
+        "vomiting": "Once this morning",
+        "hydration": "Still drinking",
+        "neurological": "Alert and oriented, no neck stiffness, no convulsions"
+      },
+      "relevant_history": "Rapid malaria test positive. Weight approximately 22 kg. Parents cannot afford hospital transport today.",
+      "raw_input": "",
+      "success": true,
+      "error": null
+    },
+    "stage_2": {
+      "triage_level": "MODERATE",
+      "red_flags": [
+        "Confirmed malaria RDT positive",
+        "High fever 39.5°C for 2 days",
+        "Vomiting (once) — monitor for ability to keep oral medication down",
+        "Financial barrier to referral — affects treatment compliance"
+      ],
+      "differential_diagnoses": [
+        "Uncomplicated Plasmodium falciparum malaria (primary)",
+        "Co-infection with bacterial illness (secondary consideration)",
+        "Viral febrile illness with malaria co-infection"
+      ],
+      "reasoning": "RDT-confirmed malaria with 2 days of high fever in a 7-year-old. She is alert, oriented, without danger signs (no neck stiffness, no convulsions, no severe anaemia signs reported, still drinking). This classifies as uncomplicated malaria — moderate urgency. Single vomiting episode requires monitoring but does not currently prevent oral treatment. Weight-based ACT dosing is the correct first-line approach.",
+      "success": true,
+      "error": null
+    },
+    "stage_3": {
+      "guidelines": [
+        "WHO Malaria Treatment Guidelines 2022: Uncomplicated P. falciparum malaria in children — first-line treatment is artemisinin-based combination therapy (ACT). Artemether-lumefantrine is preferred where available.",
+        "WHO Malaria Guidelines: Artemether-lumefantrine dosing for 15–24 kg child: 1 tablet (20mg/120mg) twice daily for 3 days = 6 doses total. Give with food or fatty drink to improve absorption.",
+        "WHO IMCI: Danger signs requiring immediate referral — not able to drink or breastfeed, vomits everything, convulsions, lethargic or unconscious. Single vomiting episode does not meet threshold if child is still drinking.",
+        "WHO Malaria Guidelines: Paracetamol for fever management in children — 15 mg/kg every 4–6 hours as needed. Do not exceed 4 doses in 24 hours."
+      ],
+      "citations": [
+        "WHO Guidelines for the Treatment of Malaria, 3rd edition (2015, updated 2022)",
+        "WHO IMCI Chart Booklet (2014), Section 5: Fever — Malaria",
+        "National Malaria Control Programme treatment protocols (Mali, 2022)"
+      ],
+      "context_count": 4,
+      "success": true,
+      "error": null
+    },
+    "stage_4": {
+      "immediate_actions": [
+        "Confirm child can swallow tablets and is keeping fluids down before giving oral ACT",
+        "Give artemether-lumefantrine (20/120 mg): 1 tablet at time 0, 1 tablet at 8 hours",
+        "Give paracetamol 330 mg (15 mg/kg × 22 kg) for fever control now",
+        "Encourage oral rehydration — water, oral rehydration solution, or breastmilk",
+        "Educate parents on full 3-day course importance — stopping early causes treatment failure"
+      ],
+      "treatment_notes": "Artemether-lumefantrine 20/120 mg for 15–24 kg child: 1 tablet twice daily for 3 days (6 doses total). Must be given with food or fatty food/drink. If child vomits within 30 minutes of dose, repeat the dose once. If vomiting prevents oral treatment, IV artesunate at referral facility is required.",
+      "referral_criteria": [
+        "Unable to keep any oral medication down after two attempts",
+        "Convulsions (any)",
+        "Altered consciousness or prostration",
+        "Severe pallor suggesting severe anaemia",
+        "Worsening fever beyond 40°C despite antipyretics",
+        "Symptoms not improving after 48 hours of correct ACT"
+      ],
+      "monitoring_plan": "Reassess in 30 minutes after first dose — confirm child has not vomited. Temperature reassessment in 2 hours. Daily assessment by CHW or family for 3 days of treatment.",
+      "follow_up": "Review in 3 days on completion of ACT course. If fever persists at day 3, refer for repeat RDT and possible treatment-failure assessment. Discuss mosquito net and preventive measures.",
+      "safety_notes": "Do not give artemisinin monotherapy (single drug) — always use ACT combination. Avoid aspirin in children. If financial constraint prevents referral and symptoms worsen, contact nearest health authority for emergency transport support. This case should be documented for CHW supervisor review.",
+      "success": true,
+      "error": null
+    }
+  },
+  "demo_skin_lesion": {
+    "stage_1": {
+      "age": "52 years",
+      "sex": "female",
+      "chief_complaint": "Changing dark skin lesion on back",
+      "duration": "6 months (noticed growth and border changes)",
+      "vital_signs": {
+        "lesion_size": "~8 mm diameter",
+        "lesion_colour": "Dark brown to black, variegated",
+        "lesion_border": "Irregular, asymmetric",
+        "symptoms": "Occasional itch, no pain, no bleeding"
+      },
+      "relevant_history": "No family history of skin cancer. Works outdoors daily (high UV exposure). No previous skin biopsies.",
+      "raw_input": "",
+      "success": true,
+      "error": null
+    },
+    "stage_2": {
+      "triage_level": "MODERATE",
+      "red_flags": [
+        "ABCDE criteria met: Asymmetry, Border irregularity, Colour variegation (brown to black), Diameter >6mm",
+        "Progressive growth over 6 months",
+        "Chronic high UV exposure (outdoor work)",
+        "Age over 50"
+      ],
+      "differential_diagnoses": [
+        "Melanoma (primary concern — ABCDE criteria strongly positive)",
+        "Dysplastic naevus (atypical mole)",
+        "Seborrhoeic keratosis (benign — less likely given colour variegation)",
+        "Basal cell carcinoma (less likely given colour pattern)"
+      ],
+      "reasoning": "This 52-year-old outdoor worker presents with a pigmented lesion meeting 4 of the ABCDE melanoma criteria: Asymmetry, irregular Border, Colour variegation (brown to black), and Diameter >6mm, with Evolution (growth over 6 months). This combination has a high positive predictive value for melanoma. Dermatological assessment with dermoscopy and biopsy is required. While not immediately life-threatening like a cardiac emergency, delay in diagnosis of melanoma significantly worsens prognosis.",
+      "success": true,
+      "error": null
+    },
+    "stage_3": {
+      "guidelines": [
+        "WHO Guide for Skin Cancer: Any pigmented lesion meeting ≥3 ABCDE criteria should be referred for specialist evaluation. Dermoscopy by a trained practitioner improves diagnostic accuracy by 20–30% over naked-eye examination.",
+        "IARC/WHO: Melanoma risk factors include cumulative UV exposure, fair skin, and personal or family history of skin cancer. Sub-Saharan African populations have lower baseline melanoma risk but are not immune — amelanotic and acral melanomas occur across all skin tones.",
+        "WHO Cancer Early Diagnosis: Early-stage melanoma (stage I) has 5-year survival >95%. Stage IV melanoma 5-year survival is <20%. Timely referral is the single most impactful intervention at the community level."
+      ],
+      "citations": [
+        "WHO Global Initiative for Cancer Early Diagnosis (2017)",
+        "International Agency for Research on Cancer (IARC) — Skin Cancer Prevention (2022)",
+        "African Cancer Coalition: Skin Cancer Recognition and Referral Guidelines (2020)"
+      ],
+      "context_count": 3,
+      "success": true,
+      "error": null
+    },
+    "stage_4": {
+      "immediate_actions": [
+        "Photograph the lesion with the patient's consent for referral documentation (include a ruler for scale)",
+        "Do not attempt to remove, cut, or treat the lesion locally",
+        "Complete a referral letter to dermatology or surgical outpatient clinic",
+        "Advise patient to avoid sun exposure on the lesion and cover with clothing",
+        "Prioritise referral within 2–4 weeks — do not delay beyond 1 month"
+      ],
+      "treatment_notes": "No treatment at community level — management is specialist only. Excisional biopsy with 2 mm margins is the standard first step. Do not perform shave biopsy. If melanoma is confirmed, staging and sentinel lymph node biopsy will be performed at a surgical oncology centre.",
+      "referral_criteria": [
+        "All lesions meeting ≥3 ABCDE criteria require specialist referral — this lesion qualifies",
+        "Any lesion that bleeds spontaneously or ulcerates: urgent referral within 1 week",
+        "Any rapid increase in size over days: emergency evaluation"
+      ],
+      "monitoring_plan": "While awaiting referral: inspect monthly for any change in size, bleeding, or ulceration. If any of these occur, escalate to urgent referral. Document and photograph changes.",
+      "follow_up": "Confirm referral appointment within 2 weeks. If specialist not accessible within 4 weeks, contact regional hospital dermatology department for telemedicine assessment if available.",
+      "safety_notes": "Melanoma is a medical emergency in terms of prognosis when delayed. This lesion cannot be dismissed as cosmetic. The patient should be informed of the urgency clearly but calmly — awareness improves compliance with referral. Document the referral in the CHW log with date and clinical findings.",
+      "success": true,
+      "error": null
+    }
+  },
+  "demo_pneumonie_enfant_fr": {
+    "stage_1": {
+      "age": "4 ans",
+      "sex": "masculin",
+      "chief_complaint": "Toux et fièvre",
+      "duration": "3 jours (toux), 1 jour (fièvre)",
+      "vital_signs": {
+        "temperature": "38,8°C",
+        "frequence_respiratoire": "42 respirations/min",
+        "alimentation": "Refuse de manger et de boire"
+      },
+      "relevant_history": "Aucun antécédent d'asthme ni d'hospitalisation. Aucun médicament administré. Situé à 40 km de l'hôpital de district.",
+      "raw_input": "",
+      "success": true,
+      "error": null
+    },
+    "stage_2": {
+      "triage_level": "URGENT",
+      "red_flags": [
+        "Respiration rapide — FR 42/min (seuil ≥40/min pour 12–60 mois)",
+        "Tirage sous-costal léger",
+        "Fièvre avec refus de s'alimenter",
+        "Localisation éloignée — 40 km de l'hôpital de référence"
+      ],
+      "differential_diagnoses": [
+        "Pneumonie bactérienne (diagnostic principal)",
+        "Infection virale des voies respiratoires inférieures",
+        "Bronchiolite"
+      ],
+      "reasoning": "Ce garçon de 4 ans répond aux critères de respiration rapide de l'IMCI OMS (≥40 respirations/min pour 1–5 ans) et présente un tirage sous-costal, ce qui correspond à une pneumonie sévère selon la classification IMCI. Le refus de boire est un signe de danger IMCI supplémentaire. L'éloignement de l'hôpital renforce l'urgence. Un référencement dans les 24 heures est indiqué avec administration préalable du premier antibiotique.",
+      "success": true,
+      "error": null
+    },
+    "stage_3": {
+      "guidelines": [
+        "OMS IMCI : Enfants 2 mois–5 ans avec toux ou difficultés respiratoires — compter les respirations pendant 60 secondes. Respiration rapide pour 12–60 mois : ≥40/min. Respiration rapide = pneumonie.",
+        "OMS IMCI : Le tirage sous-costal associé à une respiration rapide indique une pneumonie sévère. Classification PNEUMONIE SÉVÈRE — donner la première dose d'antibiotique et référer d'urgence.",
+        "OMS IMCI : Signes de danger nécessitant une référence immédiate : incapacité à boire ou téter, vomit tout, convulsions, léthargique ou inconscient, stridor chez un enfant calme."
+      ],
+      "citations": [
+        "OMS IMCI — Livret de référence (2014), Section 3 : Toux ou difficultés respiratoires",
+        "Manuel de poche des soins hospitaliers pédiatriques OMS, 2e éd. (2013), Chapitre 4",
+        "Protocoles nationaux IMCI — Mali (2021)"
+      ],
+      "context_count": 3,
+      "success": true,
+      "error": null
+    },
+    "stage_4": {
+      "immediate_actions": [
+        "Compter la fréquence respiratoire pendant 60 secondes complètes pour confirmer (≥40/min)",
+        "Vérifier le tirage sous-costal et la cyanose centrale (lèvres/langue bleues)",
+        "Évaluer la capacité à boire — si incapable de boire, classer comme maladie très sévère",
+        "Administrer amoxicilline 250 mg per os (40 mg/kg ; enfant ~16 kg → ~640 mg arrondi à la dose disponible)",
+        "Organiser le transfert urgent vers l'hôpital de district — préparer le transport maintenant"
+      ],
+      "treatment_notes": "Première ligne ambulatoire : amoxicilline orale 40 mg/kg/jour en 2 prises pendant 5 jours. À l'hôpital pour pneumonie sévère : benzylpénicilline IV/IM 50 000 unités/kg toutes les 6 heures. Ne pas retarder le transport pour le traitement.",
+      "referral_criteria": [
+        "SpO2 inférieure à 90% ou cyanose centrale",
+        "Incapacité à boire ou téter",
+        "Stridor au repos",
+        "Malnutrition sévère",
+        "Absence d'amélioration après 48 heures d'antibiotiques oraux",
+        "Aggravation de la détresse respiratoire"
+      ],
+      "monitoring_plan": "Réévaluer la fréquence respiratoire, le tirage et la capacité à boire toutes les 30 minutes en attendant le transport. En cas de cyanose ou trouble de conscience, traiter comme urgence absolue.",
+      "follow_up": "Si référé : réévaluation hospitalière dans les 24 heures. Si non référé : retour dans 2 jours ou immédiatement si la respiration s'aggrave, la fièvre dépasse 39°C ou l'enfant ne peut plus boire.",
+      "safety_notes": "Ne pas donner d'aspirine aux enfants de moins de 16 ans. Éviter les antitussifs. Paracétamol 15 mg/kg toutes les 4–6 heures pour le confort en cas de fièvre. Cette recommandation est fondée sur les directives OMS IMCI — à confirmer avec un clinicien superviseur avant toute décision.",
+      "success": true,
+      "error": null
+    }
+  }
+}
