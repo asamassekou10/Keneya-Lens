@@ -6,6 +6,7 @@ Design: Conversational progressive reveal — each agent stage appears as a card
 Built for the MedGemma Impact Challenge 2026.
 """
 import json
+import time
 import streamlit as st
 import requests
 from pathlib import Path
@@ -1110,6 +1111,19 @@ def main():
             if begin:
                 if not symptoms_input or len(symptoms_input.strip()) < 10:
                     st.warning("Please provide a detailed patient presentation (minimum 10 characters).")
+                elif not model_loaded:
+                    if model_loading:
+                        st.warning(
+                            "The model is still loading — this can take several minutes on first run. "
+                            "Watch the sidebar for **Model Ready** status, then click Begin Consultation again."
+                        )
+                    elif not api_online:
+                        st.error("API server is not reachable. Start the backend with `python run_api.py` first.")
+                    else:
+                        st.warning(
+                            "Model is not loaded yet. Click **Load Model** in the sidebar first, "
+                            "then wait for the **Model Ready** indicator before starting."
+                        )
                 else:
                     st.session_state.consult_stage = 1
                     st.session_state.consult_context = {
@@ -1165,11 +1179,47 @@ def main():
 
             if stage_response is None or not stage_response.get("success", True):
                 err = (stage_response or {}).get("error", "Unknown error")
-                st.error(f"Stage {current_stage} failed: {err}")
-                if st.button("Retry Stage"):
-                    st.rerun()
+                # Auto-retry if model is still loading (503 response)
+                _is_loading_error = (
+                    "503" in str(err) or
+                    "loading" in str(err).lower() or
+                    "still loading" in str(err).lower()
+                )
+                if _is_loading_error:
+                    retry_count = st.session_state.get("_stage_retry", 0)
+                    if retry_count < 20:  # give up after ~100 s
+                        st.session_state["_stage_retry"] = retry_count + 1
+                        st.info(
+                            f"Model is loading... automatically retrying "
+                            f"({retry_count + 1}/20). This may take several minutes on first run."
+                        )
+                        time.sleep(5)
+                        st.rerun()
+                    else:
+                        st.session_state["_stage_retry"] = 0
+                        st.error(
+                            "Model did not finish loading after 100 seconds. "
+                            "Check the sidebar — if RAM is insufficient, close other apps and click **Load Model** again."
+                        )
+                        if st.button("Reset and Try Again"):
+                            st.session_state.consult_stage = 0
+                            st.rerun()
+                else:
+                    st.session_state["_stage_retry"] = 0
+                    st.error(f"Stage {current_stage} failed: {err}")
+                    col_a, col_b = st.columns(2)
+                    with col_a:
+                        if st.button("Retry Stage"):
+                            st.rerun()
+                    with col_b:
+                        if st.button(T["reset_btn"]):
+                            st.session_state.consult_stage = 0
+                            st.session_state.consult_context = {}
+                            st.session_state.consult_results = {}
+                            st.rerun()
             else:
                 stage_result = stage_response.get("result", {})
+                st.session_state["_stage_retry"] = 0  # reset retry counter on success
 
                 # Store stage result
                 key_map = {1: "intake", 2: "triage", 3: "guidelines", 4: "recommendations"}
