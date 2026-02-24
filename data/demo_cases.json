@@ -1,0 +1,42 @@
+[
+  {
+    "id": "demo_pneumonia_child",
+    "label": "Suspected Pneumonia (Child, 4y)",
+    "description": "Paediatric respiratory emergency — IMCI fast-breathing criteria",
+    "language": "en",
+    "input": "4-year-old boy brought by his mother. He has had a cough for 3 days, fever started yesterday (38.8°C). He is breathing fast — I counted about 42 breaths per minute. He is not eating and refuses to drink. I can see mild chest indrawing. No history of asthma or previous hospitalisations. No medications given. We are 40 km from the district hospital.",
+    "expected_triage": "URGENT"
+  },
+  {
+    "id": "demo_chest_pain_adult",
+    "label": "Adult Chest Pain with Dyspnoea",
+    "description": "Possible cardiac or pulmonary emergency",
+    "language": "en",
+    "input": "45-year-old male farmer. He came to me with chest pain that started 2 hours ago. The pain goes to his left arm and jaw. He is sweating a lot and says he feels like something is pressing on his chest. He is slightly short of breath. Blood pressure 155/95, heart rate 108, respiratory rate 22. He has no known heart problems but smokes and says his father died young. He is very anxious.",
+    "expected_triage": "CRITICAL"
+  },
+  {
+    "id": "demo_malaria_child",
+    "label": "Suspected Malaria (Child, 7y)",
+    "description": "Febrile illness in malaria-endemic region",
+    "language": "en",
+    "input": "7-year-old girl, fever for 2 days, temperature 39.5°C. She complains of headache and body aches. She vomited once this morning but is still drinking. She is alert and oriented, no neck stiffness, no convulsions. Rapid malaria test positive. She weighs approximately 22 kg. Her parents cannot afford the hospital transport today.",
+    "expected_triage": "MODERATE"
+  },
+  {
+    "id": "demo_skin_lesion",
+    "label": "Suspicious Skin Lesion (Adult, 52y)",
+    "description": "Pigmented skin lesion requiring dermatological assessment",
+    "language": "en",
+    "input": "52-year-old woman. She noticed a dark spot on her back about 6 months ago. It has grown and now has irregular edges — one side looks different from the other. The colour varies from dark brown to black. It is about 8 mm in diameter. It does not hurt but occasionally itches. She has no family history of skin cancer. She works outdoors every day.",
+    "expected_triage": "MODERATE"
+  },
+  {
+    "id": "demo_pneumonie_enfant_fr",
+    "label": "Pneumonie suspectée — Enfant 4 ans (Français)",
+    "description": "Cas pédiatrique respiratoire — version française pour CHW francophones",
+    "language": "fr",
+    "input": "Garçon de 4 ans amené par sa mère. Toux depuis 3 jours, fièvre depuis hier (38,8°C). Il respire vite — j'ai compté environ 42 respirations par minute. Il ne mange pas et refuse de boire. On observe un léger tirage sous-costal. Pas d'antécédents d'asthme ni d'hospitalisation. Aucun médicament donné. Nous sommes à 40 km de l'hôpital de district.",
+    "expected_triage": "URGENT"
+  }
+]
