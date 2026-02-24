@@ -903,7 +903,7 @@ def main():
     with st.sidebar:
         st.markdown(f"### {T['lang_label']}")
         new_lang = st.selectbox(
-            "", ["English", "Français"],
+            "Interface Language", ["English", "Français"],
             index=0 if lang == "en" else 1,
             label_visibility="collapsed",
         )
