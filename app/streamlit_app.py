@@ -42,6 +42,138 @@ try:
 except Exception:
     DEMO_RESPONSES = {}
 
+# ── Demo image analysis results ────────────────────────────────────────────────
+DEMO_IMAGE_RESULTS = {
+    "Chest Radiograph": {
+        "triage_level": "URGENT",
+        "response": (
+            "CXR Foundation analysis indicates increased opacity in the right lower lobe consistent "
+            "with consolidation. Air bronchograms are present. The cardiac silhouette is within normal "
+            "limits. No pneumothorax or pleural effusion identified.\n\n"
+            "Clinical interpretation (MedGemma): The radiographic findings are consistent with "
+            "right lower lobe pneumonia. Combined with the patient's presenting symptoms of fever, "
+            "cough, and fast breathing, this supports a diagnosis of bacterial pneumonia requiring "
+            "antibiotic therapy. Given the degree of consolidation and the clinical context, "
+            "hospital-level care is recommended."
+        ),
+        "image_analysis": {
+            "model": "CXR Foundation (google/cxr-foundation)",
+            "findings": ["Right lower lobe consolidation", "Air bronchograms present", "No pneumothorax", "No pleural effusion"],
+            "confidence": 0.87,
+            "embedding_dim": 1376,
+        },
+    },
+    "Skin Lesion": {
+        "triage_level": "MODERATE",
+        "response": (
+            "Derm Foundation analysis of the pigmented lesion identifies features consistent with "
+            "an atypical melanocytic lesion. The embedding pattern shows similarity to training "
+            "examples classified as dysplastic naevus / early melanoma.\n\n"
+            "Clinical interpretation (MedGemma): The lesion demonstrates ABCDE criteria — "
+            "Asymmetry, irregular Border, Colour variegation (brown to black), Diameter ~8 mm, "
+            "and Evolution over 6 months. These features warrant urgent dermatological evaluation "
+            "and excisional biopsy. Do not attempt local treatment. Refer to a dermatologist or "
+            "surgical outpatient clinic within 2–4 weeks."
+        ),
+        "image_analysis": {
+            "model": "Derm Foundation (google/derm-foundation)",
+            "findings": ["Asymmetric pigmented lesion", "Irregular border", "Colour variegation brown-to-black", "Diameter >6 mm"],
+            "confidence": 0.79,
+            "embedding_dim": 1280,
+        },
+    },
+}
+
+# ── Demo query history ──────────────────────────────────────────────────────────
+DEMO_HISTORY = [
+    {
+        "id": "a1b2c3d4e5f6",
+        "timestamp": "2026-02-23 09:14:32",
+        "input": "[AGENTIC] 4-year-old boy, cough 3 days, fever 38.8°C, RR 42/min, chest indrawing, refusing food. 40 km from hospital.",
+        "response": "TRIAGE: URGENT — Bacterial pneumonia suspected. RR 42/min meets IMCI fast-breathing threshold. Chest indrawing present. First-dose amoxicillin and urgent referral recommended.",
+        "sources": ["WHO IMCI Chart Booklet (2014), Section 3", "WHO Pocket Book of Hospital Care, Ch.4"],
+        "context_count": 4,
+    },
+    {
+        "id": "b2c3d4e5f6a1",
+        "timestamp": "2026-02-23 09:32:17",
+        "input": "[AGENTIC] 45-year-old male, chest pain radiating to left arm and jaw, diaphoresis, HR 108, BP 155/95. 2-hour duration. Smoker.",
+        "response": "TRIAGE: CRITICAL — Acute coronary syndrome (STEMI pattern). Aspirin 300 mg, emergency transport, notify receiving hospital. Time-sensitive — activate cath lab if available.",
+        "sources": ["WHO Guidelines for ACS (2022)", "African Society of Cardiology ACS Guidelines (2021)"],
+        "context_count": 3,
+    },
+    {
+        "id": "c3d4e5f6a1b2",
+        "timestamp": "2026-02-23 10:05:44",
+        "input": "[AGENTIC] 7-year-old girl, fever 2 days, temp 39.5°C, headache, vomited once. RDT malaria positive. Weight 22 kg.",
+        "response": "TRIAGE: MODERATE — Uncomplicated P. falciparum malaria. Artemether-lumefantrine 1 tablet (20/120 mg) twice daily × 3 days. Paracetamol for fever. Return in 3 days.",
+        "sources": ["WHO Malaria Treatment Guidelines (2022)", "WHO IMCI Section 5: Fever"],
+        "context_count": 4,
+    },
+    {
+        "id": "d4e5f6a1b2c3",
+        "timestamp": "2026-02-23 10:51:09",
+        "input": "[AGENTIC] 52-year-old woman, dark skin lesion on back, 6 months, 8 mm, irregular edges, colour brown to black, outdoor worker.",
+        "response": "TRIAGE: MODERATE — Suspicious pigmented lesion meeting ABCDE criteria. Refer to dermatology within 2–4 weeks for excisional biopsy. Do not treat locally.",
+        "sources": ["WHO Global Initiative for Cancer Early Diagnosis (2017)", "IARC Skin Cancer Prevention (2022)"],
+        "context_count": 3,
+    },
+    {
+        "id": "e5f6a1b2c3d4",
+        "timestamp": "2026-02-23 11:20:33",
+        "input": "Child 3 years, diarrhoea 4 days, some dehydration signs. No blood in stool. Still drinking.",
+        "response": "TRIAGE: MODERATE — Acute watery diarrhoea with some dehydration. ORS Plan B: 75 ml/kg over 4 hours. Zinc 20 mg/day × 10 days. Monitor and reassess hydration every hour.",
+        "sources": ["WHO IMCI Section 4: Diarrhoea", "WHO ORS and Zinc guidelines"],
+        "context_count": 3,
+    },
+    {
+        "id": "f6a1b2c3d4e5",
+        "timestamp": "2026-02-23 11:44:58",
+        "input": "Adult woman 28 years, 34 weeks pregnant, severe headache, blurred vision, BP 160/110.",
+        "response": "TRIAGE: CRITICAL — Pre-eclampsia with severe features. Emergency referral. Position on left side. Do not give antihypertensives without specialist guidance. MgSO4 if available and trained.",
+        "sources": ["WHO Recommendations for Prevention of Pre-eclampsia (2023)"],
+        "context_count": 2,
+    },
+    {
+        "id": "a7b8c9d0e1f2",
+        "timestamp": "2026-02-23 13:12:05",
+        "input": "Man 60 years, left-sided weakness, sudden onset, face drooping, cannot raise right arm. 1 hour ago.",
+        "response": "TRIAGE: CRITICAL — Acute stroke (FAST positive). Emergency transport immediately. Time-to-treatment critical. Position semi-recumbent. No food or water (aspiration risk).",
+        "sources": ["WHO STEPS Stroke Surveillance (2022)", "African Stroke Society Guidelines"],
+        "context_count": 2,
+    },
+    {
+        "id": "b8c9d0e1f2a7",
+        "timestamp": "2026-02-23 14:05:22",
+        "input": "Child 18 months, not vaccinated, high fever, rash starting on face spreading to trunk, cough, red eyes.",
+        "response": "TRIAGE: URGENT — Suspected measles. Isolate immediately (airborne precautions). Vitamin A 100,000 IU. Report to district health authority. Refer for supportive care.",
+        "sources": ["WHO IMCI Measles Protocol", "WHO Immunization in Practice Module 1"],
+        "context_count": 3,
+    },
+    {
+        "id": "c9d0e1f2a7b8",
+        "timestamp": "2026-02-23 14:55:11",
+        "input": "Garçon 4 ans, toux 3 jours, fièvre 38.8°C, FR 42/min, tirage sous-costal léger. À 40 km de l'hôpital.",
+        "response": "TRIAGE: URGENT — Pneumonie sévère probable. FR 42/min dépasse le seuil IMCI pour 1–5 ans. Amoxicilline première dose. Référence urgente à l'hôpital de district.",
+        "sources": ["OMS IMCI Livret de référence (2014), Section 3"],
+        "context_count": 4,
+    },
+    {
+        "id": "d0e1f2a7b8c9",
+        "timestamp": "2026-02-23 15:30:47",
+        "input": "Adult male 35 years, snake bite left ankle 2 hours ago, local swelling, mild pain, no systemic symptoms yet.",
+        "response": "TRIAGE: URGENT — Snakebite with local envenomation signs. Immobilise limb below heart level. Remove constrictions. Emergency transport for antivenom evaluation. Do not cut, suck, or apply tourniquet.",
+        "sources": ["WHO Guidelines for the Management of Snakebite (2016)"],
+        "context_count": 2,
+    },
+]
+
+DEMO_STATS = {
+    "total_queries": 10,
+    "average_context_count": 3.0,
+    "kb_documents": 24,
+}
+
 # ── Translations ───────────────────────────────────────────────────────────────
 TRANSLATIONS = {
     "en": {
@@ -1304,88 +1436,115 @@ def main():
             unsafe_allow_html=True,
         )
 
-        col1, col2 = st.columns(2)
-        with col1:
-            image_type = st.selectbox(
-                "Image Modality",
-                ["Chest Radiograph", "Skin Lesion", "Pathology Slide", "Ultrasound", "Other"],
+        # ── Demo Mode: image analysis ──────────────────────────────────────
+        if st.session_state.get("demo_mode"):
+            st.markdown(
+                '<div class="kl-alert" style="background:rgba(99,102,241,.1);border:1px solid '
+                'rgba(99,102,241,.35);border-left:4px solid #6366F1;color:#3730a3;font-size:.875rem;">'
+                '<strong>Demo Mode</strong> — select an image type below and click Analyse to see '
+                'pre-baked HAI-DEF foundation model results. No image upload or model required.</div>',
+                unsafe_allow_html=True,
             )
-        with col2:
-            clinical_ctx = st.text_input(
-                "Clinical Context (optional)",
-                placeholder="Patient age, relevant history, specific concern…",
+            demo_img_type = st.selectbox(
+                "Demo Image Type",
+                list(DEMO_IMAGE_RESULTS.keys()),
             )
-
-        uploaded_image = st.file_uploader(
-            "Select Medical Image",
-            type=["jpg", "jpeg", "png"],
-            help="JPEG or PNG, maximum 10 MB.",
-        )
-
-        if uploaded_image:
-            c_img, c_meta = st.columns([2, 1])
-            with c_img:
-                st.image(uploaded_image, caption=uploaded_image.name, use_container_width=True)
-            with c_meta:
-                st.markdown(f"**File:** {uploaded_image.name}")
-                st.markdown(f"**Modality:** {image_type}")
-                if clinical_ctx:
-                    st.markdown(f"**Context:** {clinical_ctx}")
-                analyze_img = st.button("Analyse Image", type="primary", use_container_width=True)
-
-            if analyze_img:
+            if st.button("Analyse Image (Demo)", type="primary"):
+                with st.spinner(f"Analysing {demo_img_type} with HAI-DEF foundation models..."):
+                    time.sleep(2.0)
+                demo_res = DEMO_IMAGE_RESULTS[demo_img_type]
+                st.markdown(_triage_html(demo_res["triage_level"], lang), unsafe_allow_html=True)
+                st.markdown("#### Analysis Results")
                 st.markdown(
-                    '<div class="kl-alert kl-alert-info">Image analysis may take 2–5 minutes.</div>',
+                    f'<div class="kl-guideline-quote" style="font-size:.9375rem;">'
+                    f'{demo_res["response"]}</div>',
                     unsafe_allow_html=True,
                 )
-                with st.spinner("Analysing with HAI-DEF foundation models..."):
-                    try:
-                        r = requests.post(
-                            f"{API_BASE_URL}/analyze/image",
-                            files={"file": (uploaded_image.name, uploaded_image.getvalue(), uploaded_image.type)},
-                            params={"image_type": image_type.lower().replace(" ", "_")},
-                            timeout=300,
-                        )
-                        r.raise_for_status()
-                        res = r.json()
-                        response_text = res.get("response", "No analysis available.")
+                with st.expander("Foundation Model Findings"):
+                    st.json(demo_res["image_analysis"])
+        else:
+            # ── Live Mode: real image upload ───────────────────────────────
+            col1, col2 = st.columns(2)
+            with col1:
+                image_type = st.selectbox(
+                    "Image Modality",
+                    ["Chest Radiograph", "Skin Lesion", "Pathology Slide", "Ultrasound", "Other"],
+                )
+            with col2:
+                clinical_ctx = st.text_input(
+                    "Clinical Context (optional)",
+                    placeholder="Patient age, relevant history, specific concern…",
+                )
 
-                        # Determine triage from response
-                        t = response_text.lower()
-                        if any(k in t for k in ["critical", "emergency", "immediate"]):
-                            level = "CRITICAL"
-                        elif any(k in t for k in ["urgent", "refer immediately", "24 hour"]):
-                            level = "URGENT"
-                        elif any(k in t for k in ["moderate", "schedule", "appointment"]):
-                            level = "MODERATE"
-                        else:
-                            level = "NON-URGENT"
+            uploaded_image = st.file_uploader(
+                "Select Medical Image",
+                type=["jpg", "jpeg", "png"],
+                help="JPEG or PNG, maximum 10 MB.",
+            )
 
-                        st.markdown(_triage_html(level, lang), unsafe_allow_html=True)
-                        st.markdown("#### Analysis Results")
-                        st.markdown(
-                            f'<div class="kl-guideline-quote" style="font-size:.9375rem;">'
-                            f'{response_text}</div>',
-                            unsafe_allow_html=True,
-                        )
+            if uploaded_image:
+                c_img, c_meta = st.columns([2, 1])
+                with c_img:
+                    st.image(uploaded_image, caption=uploaded_image.name, use_container_width=True)
+                with c_meta:
+                    st.markdown(f"**File:** {uploaded_image.name}")
+                    st.markdown(f"**Modality:** {image_type}")
+                    if clinical_ctx:
+                        st.markdown(f"**Context:** {clinical_ctx}")
+                    analyze_img = st.button("Analyse Image", type="primary", use_container_width=True)
 
-                        img_analysis = res.get("image_analysis", {})
-                        if img_analysis and img_analysis.get("findings"):
-                            with st.expander("Foundation Model Findings"):
-                                st.json(img_analysis)
+                if analyze_img:
+                    st.markdown(
+                        '<div class="kl-alert kl-alert-info">Image analysis may take 2–5 minutes.</div>',
+                        unsafe_allow_html=True,
+                    )
+                    with st.spinner("Analysing with HAI-DEF foundation models..."):
+                        try:
+                            r = requests.post(
+                                f"{API_BASE_URL}/analyze/image",
+                                files={"file": (uploaded_image.name, uploaded_image.getvalue(), uploaded_image.type)},
+                                params={"image_type": image_type.lower().replace(" ", "_")},
+                                timeout=300,
+                            )
+                            r.raise_for_status()
+                            res = r.json()
+                            response_text = res.get("response", "No analysis available.")
 
-                        img_meta = res.get("image_metadata", {})
-                        if img_meta:
-                            with st.expander("Image Metadata"):
-                                st.json(img_meta)
+                            t = response_text.lower()
+                            if any(k in t for k in ["critical", "emergency", "immediate"]):
+                                level = "CRITICAL"
+                            elif any(k in t for k in ["urgent", "refer immediately", "24 hour"]):
+                                level = "URGENT"
+                            elif any(k in t for k in ["moderate", "schedule", "appointment"]):
+                                level = "MODERATE"
+                            else:
+                                level = "NON-URGENT"
 
-                    except requests.exceptions.Timeout:
-                        st.error("Analysis timed out. Check system resources.")
-                    except requests.exceptions.ConnectionError:
-                        st.error("API connection lost. Restart the server after freeing memory.")
-                        st.code("python run_api.py", language="bash")
-                    except Exception as e:
-                        st.error(f"Analysis failed: {str(e)}")
+                            st.markdown(_triage_html(level, lang), unsafe_allow_html=True)
+                            st.markdown("#### Analysis Results")
+                            st.markdown(
+                                f'<div class="kl-guideline-quote" style="font-size:.9375rem;">'
+                                f'{response_text}</div>',
+                                unsafe_allow_html=True,
+                            )
+
+                            img_analysis = res.get("image_analysis", {})
+                            if img_analysis and img_analysis.get("findings"):
+                                with st.expander("Foundation Model Findings"):
+                                    st.json(img_analysis)
+
+                            img_meta = res.get("image_metadata", {})
+                            if img_meta:
+                                with st.expander("Image Metadata"):
+                                    st.json(img_meta)
+
+                        except requests.exceptions.Timeout:
+                            st.error("Analysis timed out. Check system resources.")
+                        except requests.exceptions.ConnectionError:
+                            st.error("API connection lost. Restart the server after freeing memory.")
+                            st.code("python run_api.py", language="bash")
+                        except Exception as e:
+                            st.error(f"Analysis failed: {str(e)}")
 
     # ════════════════════════════════════════════════════════════════════════
     # Tab 3 — Query History
@@ -1393,35 +1552,52 @@ def main():
     with tab_hist:
         st.markdown(f'<div class="kl-page-title">{T["tab_history"]}</div>', unsafe_allow_html=True)
 
-        c_lim, c_ref = st.columns([3, 1])
-        with c_lim:
-            limit = st.slider("Records to display", 5, 50, 10)
-        with c_ref:
-            if st.button("Refresh", use_container_width=True):
-                st.rerun()
+        is_demo = st.session_state.get("demo_mode", False)
 
-        history = _api_get("/history", params={"limit": limit})
-        if history:
-            queries = history.get("queries", [])
-            if queries:
-                for q in queries:
-                    qid = (q.get("id") or "")[:8]
-                    ts  = q.get("timestamp", "")
-                    with st.expander(f"Query {qid}  |  {ts}"):
-                        st.markdown(f"**Input:** {q.get('input', 'N/A')}")
-                        st.markdown("---")
-                        st.markdown(f"**Response:** {q.get('response', 'N/A')}")
-                        if q.get("sources"):
-                            st.markdown(f"**Sources:** {', '.join(q['sources'])}")
-                        st.caption(f"Context chunks: {q.get('context_count', 0)}")
-            else:
-                st.info("No query history yet.")
+        if is_demo:
+            st.markdown(
+                '<div class="kl-alert" style="background:rgba(99,102,241,.1);border:1px solid '
+                'rgba(99,102,241,.35);border-left:4px solid #6366F1;color:#3730a3;font-size:.875rem;">'
+                '<strong>Demo Mode</strong> — showing 10 sample consultation records logged during '
+                'a typical CHW shift. These represent real-world query patterns across multiple '
+                'disease categories.</div>',
+                unsafe_allow_html=True,
+            )
+            queries = DEMO_HISTORY
+            stats = DEMO_STATS
         else:
-            st.error("Could not retrieve history from the API.")
+            c_lim, c_ref = st.columns([3, 1])
+            with c_lim:
+                limit = st.slider("Records to display", 5, 50, 10)
+            with c_ref:
+                if st.button("Refresh", use_container_width=True):
+                    st.rerun()
+
+            history = _api_get("/history", params={"limit": limit})
+            queries = history.get("queries", []) if history else []
+            if history is None:
+                st.error("Could not retrieve history from the API.")
+            stats = _api_get("/stats") or {}
+
+        if queries:
+            for q in queries:
+                qid = (q.get("id") or "")[:8]
+                ts  = q.get("timestamp", "")
+                raw_input = q.get("input", "N/A")
+                is_agentic = raw_input.startswith("[AGENTIC]")
+                label = f"{'[Agent] ' if is_agentic else ''}Query {qid}  |  {ts}"
+                with st.expander(label):
+                    st.markdown(f"**Input:** {raw_input.replace('[AGENTIC] ', '')}")
+                    st.markdown("---")
+                    st.markdown(f"**Response:** {q.get('response', 'N/A')}")
+                    if q.get("sources"):
+                        st.markdown(f"**Sources:** {', '.join(q['sources'])}")
+                    st.caption(f"Context chunks: {q.get('context_count', 0)}")
+        elif not is_demo:
+            st.info("No query history yet. Run a consultation to see records here.")
 
         st.markdown("---")
         st.markdown("#### Usage Statistics")
-        stats = _api_get("/stats")
         if stats:
             c1, c2, c3 = st.columns(3)
             with c1: st.metric("Total Queries", stats.get("total_queries", 0))
@@ -1509,6 +1685,30 @@ Research prototype only. Not cleared for clinical use.
         with c3:
             st.text(f"Date: {datetime.now().strftime('%Y-%m-%d')}")
             st.text("Challenge: MedGemma Impact 2026")
+
+        # Live system metrics — only meaningful outside Demo Mode
+        if not st.session_state.get("demo_mode"):
+            st.markdown("---")
+            st.markdown("#### Live System Status")
+            sys_health = check_api_health() or {}
+            m1, m2, m3, m4 = st.columns(4)
+            with m1:
+                st.metric("API Status", "Online" if sys_health else "Offline")
+            with m2:
+                st.metric("Model", "Ready" if sys_health.get("model_loaded") else ("Loading" if sys_health.get("model_loading") else "Standby"))
+            with m3:
+                mem = check_memory_status() or {}
+                st.metric("Free RAM", f"{mem.get('available_gb', '?')} GB")
+            with m4:
+                st.metric("Vector DB", "Initialised" if sys_health.get("db_initialized") else "Empty")
+        else:
+            st.markdown("---")
+            st.markdown("#### System Status (Demo Mode)")
+            m1, m2, m3, m4 = st.columns(4)
+            with m1: st.metric("API Status", "Demo Mode")
+            with m2: st.metric("Model", "Pre-loaded")
+            with m3: st.metric("Free RAM", "N/A")
+            with m4: st.metric("Knowledge Base", "24 docs")
 
     # ── Footer ────────────────────────────────────────────────────────────────
     st.markdown(
